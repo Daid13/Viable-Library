@@ -1,4 +1,8 @@
 from viablelibrary import ViableLibrary
+import jinja2
+
+environment = jinja2.Environment(loader=jinja2.FileSystemLoader("templates/"))
+
 def create_values(lib):
     books=[["Return of the King","The finale to the epic, genre defining work by J.R.R. Tolkien."],
            ["Foundation", "The Galactic Empire is dying but Hari Seldon's Psychohistory predicts a better future."],
@@ -9,11 +13,7 @@ def create_values(lib):
 
 lib=ViableLibrary()
 create_values(lib)
-print(lib.get_available_books())
-print(lib.register("John", "Smith", "johnsmith@mail.com","pass"))
-print(lib.login("johnsmith@mail.com", "pass"))
-print(lib.borrow("Foundation"))
-print(lib.get_book_list())
-print(lib.get_available_books())
-print(lib.get_loaned_books())            
+display_template = environment.get_template("start.html")
+display_template.render()
+
 
