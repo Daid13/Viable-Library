@@ -7,17 +7,17 @@ class Book:
         self.description = description
         self.image = image
         self.available = True
-        self.borrower = None
+        self.borrower_email = None
         self.due_date = None
 
     def borrow(self, borrower, length):
         self.available = False
-        self.borrower = borrower
-        self.due_date = datetime.date.today() + datetime.deltatime(days=length)
+        self.borrower_email = borrower
+        self.due_date = datetime.date.today() + datetime.timedelta(days=length)
 
     def return_book(self):
         self.available = True
-        self.borrower = None
+        self.borrower_email = None
         self.due_date = None
 
     def get_basic_details(self):
@@ -30,5 +30,5 @@ class Book:
             self.image,
             self.available,
             self.due_date,
-            self.borrower,
+            self.borrower_email,
         ]

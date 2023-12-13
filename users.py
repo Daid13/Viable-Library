@@ -3,11 +3,11 @@ class User:
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self._password = password
+        self._password = password#not secure enough but ran out of time to research cryptographic hash libraries
         self.logged_in = False
 
     def login(self, password):
-        if self.password == password:
+        if self._password == password:
             self.logged_in = True
             return True
         else:

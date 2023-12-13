@@ -1,9 +1,9 @@
-import User
-import book
+from users import User
+from books import Book
 import datetime
 
 
-class Library:
+class ViableLibrary:
     def __init__(self) -> None:
         self.books = {}  # title as key
         self.users = {}  # email as key
@@ -25,13 +25,14 @@ class Library:
         return False
 
     def logout(self):
-        self.current_user.logout()
+        if self.current_user:
+            self.current_user.logout()
         self.current_user = None
         return True
 
     def borrow(self, title):
         if self.current_user and self.books[title].available:
-            self.books[title].borrow()
+            self.books[title].borrow(self.current_user.email, self.borrow_time)
             # update something in current user?
             return self.books[title].due_date
         return False
@@ -62,10 +63,16 @@ class Library:
 
     def get_loaned_books(self):
         temp = [
-            self.books.get_full_details()
+            self.books[title].get_full_details()
             for title in self.books
             if not self.books[title].available
         ]
         return [
-            book + self.users[book[-1].get_names()] for book in temp
-        ]  # refactor. This adds borrower's names
+            book + self.users[book[-1]].get_names() for book in temp
+        ]  # refactor for clarity. This adds borrower's names
+
+    def add_book(self, title, description, image=None):
+        if title not in self.books:
+            self.books[title]=Book(title,description,image)
+            return True
+        return False
